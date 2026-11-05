@@ -1,11 +1,11 @@
 [build]
-  command = "npm run db:migrate && npm run build"
+  command = "npm run build"
   publish = ".next"
 
 [build.environment]
   NODE_VERSION = "22"
 
-# Next.js runtime is added automatically by Netlify for Next.js sites.
+# Database migrations in netlify/database/migrations are applied by Netlify on deploy.
 
 [[headers]]
   for = "/*"

@@ -1,11 +1,16 @@
 import "server-only";
 import { Pool, type PoolClient, type QueryResultRow } from "pg";
+import { getConnectionString } from "@netlify/database";
 
 const globalForPool = globalThis as unknown as { __pgPool?: Pool };
 
 function createPool() {
-  const url = process.env.DATABASE_URL;
-  if (!url) throw new Error("DATABASE_URL is not set. See README.md.");
+  // Local dev uses DATABASE_URL; on Netlify the managed database is used automatically.
+  let url = process.env.DATABASE_URL || process.env.NETLIFY_DB_URL;
+  if (!url) {
+    try { url = getConnectionString(); } catch { /* falls through */ }
+  }
+  if (!url) throw new Error("No database configured. Set DATABASE_URL (see README.md).");
   const local = url.includes("localhost") || url.includes("127.0.0.1");
   return new Pool({
     connectionString: url,

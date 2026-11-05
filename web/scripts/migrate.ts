@@ -9,7 +9,7 @@ async function main() {
   await client.connect();
   await client.query("create table if not exists schema_migrations (name text primary key, applied_at timestamptz not null default now())");
   await client.query("alter table schema_migrations enable row level security");
-  const dir = join(process.cwd(), "db", "migrations");
+  const dir = join(process.cwd(), "netlify", "database", "migrations");
   const files = readdirSync(dir).filter((f) => f.endsWith(".sql")).sort();
   const { rows } = await client.query<{ name: string }>("select name from schema_migrations");
   const done = new Set(rows.map((r) => r.name));
