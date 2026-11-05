@@ -33,6 +33,7 @@
     "@eslint/eslintrc": "^3",
     "@iconify-json/simple-icons": "^1.2.101",
     "@iconify-json/solar": "^1.2.13",
+    "@netlify/plugin-nextjs": "^5.16.6",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/pg": "^8.23.1",
