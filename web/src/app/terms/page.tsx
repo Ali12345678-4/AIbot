@@ -3,7 +3,7 @@ import { SimpleShell } from "@/components/site/SimpleShell";
 import { getSettings } from "@/server/settings";
 import { formatMoney } from "@/lib/format";
 
-export const revalidate = 300;
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Terms & Cancellation Policy", alternates: { canonical: "/terms" } };
 
 export default async function TermsPage() {

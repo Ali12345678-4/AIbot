@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SimpleShell } from "@/components/site/SimpleShell";
 import { getSettings } from "@/server/settings";
 
-export const revalidate = 300;
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Privacy Policy", alternates: { canonical: "/privacy" } };
 
 export default async function PrivacyPage() {

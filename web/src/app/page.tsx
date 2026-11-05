@@ -11,7 +11,7 @@ import { JsonLd, businessJsonLd } from "@/components/site/JsonLd";
 import { formatDuration, formatMoney } from "@/lib/format";
 import type { Settings } from "@/lib/types";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 const METHOD = [
   { t: "Patient", b: "Nerves are normal. Lessons are calm, encouraging and never rushed, so confidence builds naturally." },
