@@ -19,6 +19,7 @@ const longDate = (d: string) =>
 export function BookingFlow(props: {
   lessons: LessonType[];
   initialLessonSlug?: string;
+  initialDate?: string;
   currency: string;
   timezone: string;
   requireApproval: boolean;
@@ -32,12 +33,13 @@ export function BookingFlow(props: {
 }) {
   const { lessons, currency } = props;
   const initial = lessons.find((l) => l.slug === props.initialLessonSlug) ?? (lessons.length === 1 ? lessons[0] : undefined);
-  const [step, setStep] = useState<Step>(initial ? 2 : 1);
+  const startDate = initial && props.initialDate && /^\d{4}-\d{2}-\d{2}$/.test(props.initialDate) && props.initialDate >= props.today && props.initialDate <= props.lastDate ? props.initialDate : null;
+  const [step, setStep] = useState<Step>(initial ? (startDate ? 3 : 2) : 1);
   const [lesson, setLesson] = useState<LessonType | undefined>(initial);
-  const [month, setMonth] = useState(props.today.slice(0, 7));
+  const [month, setMonth] = useState((startDate ?? props.today).slice(0, 7));
   const [dates, setDates] = useState<Set<string>>(new Set());
   const [datesLoading, setDatesLoading] = useState(false);
-  const [date, setDate] = useState<string | null>(null);
+  const [date, setDate] = useState<string | null>(startDate);
   const [slots, setSlots] = useState<Slot[] | null>(null);
   const [slot, setSlot] = useState<Slot | null>(null);
   const [details, setDetails] = useState<Details>({ fullName: "", phone: "", email: "", experience: "", message: "" });
@@ -114,6 +116,12 @@ export function BookingFlow(props: {
       setSlots([]);
       setNotice({ kind: "error", text: "We couldn’t load times for that day. Please try again." });
     }
+  }, []);
+
+  // Deep link from the homepage timetable: lesson + date preselected.
+  useEffect(() => {
+    if (startDate && initial) loadSlots(initial, startDate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const go = (s: Step) => { setNotice(null); setStep(s); };

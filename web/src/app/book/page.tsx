@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/book" },
 };
 
-export default async function BookPage({ searchParams }: { searchParams: Promise<{ lesson?: string; cancelled?: string }> }) {
+export default async function BookPage({ searchParams }: { searchParams: Promise<{ lesson?: string; cancelled?: string; date?: string }> }) {
   const sp = await searchParams;
   const [settings, lessons] = await Promise.all([getSettings(), getActiveLessonTypes()]);
   const today = todayInTz(settings.timezone);
@@ -21,6 +21,7 @@ export default async function BookPage({ searchParams }: { searchParams: Promise
       <BookingFlow
         lessons={lessons}
         initialLessonSlug={sp.lesson}
+        initialDate={sp.date}
         currency={settings.currency}
         timezone={settings.timezone}
         requireApproval={settings.require_approval}

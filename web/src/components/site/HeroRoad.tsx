@@ -13,6 +13,7 @@ precision highp float;
 uniform vec2 uRes;
 uniform float uTime;
 uniform vec2 uPointer;
+uniform float uProg;
 varying vec2 vUv;
 
 float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7))) * 43758.5453); }
@@ -22,25 +23,25 @@ float noise(vec2 p){ vec2 i=floor(p); vec2 f=fract(p); f=f*f*(3.0-2.0*f);
 void main(){
   vec2 uv = vUv;
   float aspect = uRes.x / uRes.y;
-  float horizon = 0.40 + uPointer.y * 0.015;
+  float horizon = 0.40 + uPointer.y * 0.015 + uProg * 0.10;
   vec2 p = vec2((uv.x - 0.5) * aspect, uv.y);
 
   // Sky: deep night overhead, warm dusk at the horizon.
   float h = clamp((uv.y - horizon) / (1.0 - horizon), 0.0, 1.0);
-  vec3 skyTop = vec3(0.035, 0.040, 0.050);
-  vec3 skyMid = vec3(0.090, 0.085, 0.100);
-  vec3 dusk   = vec3(0.86, 0.47, 0.26);
+  vec3 skyTop = vec3(0.0, 0.0, 0.0);
+  vec3 skyMid = vec3(0.045, 0.012, 0.016);
+  vec3 dusk   = vec3(0.86, 0.06, 0.12);
   vec3 sky = mix(skyMid, skyTop, smoothstep(0.0, 0.7, h));
   sky = mix(sky, dusk, pow(1.0 - h, 9.0) * 0.85);
   float sunX = 0.30 * aspect * smoothstep(0.9, 1.6, aspect) + 0.05 + uPointer.x * 0.04;
   float sd = length(vec2(p.x - sunX, (uv.y - horizon) * 1.6));
-  sky += vec3(1.0, 0.62, 0.36) * exp(-sd * 9.0) * 0.55;
-  sky += vec3(1.0, 0.55, 0.30) * exp(-sd * 2.5) * 0.10;
+  sky += vec3(1.0, 0.22, 0.26) * exp(-sd * 9.0) * 0.55;
+  sky += vec3(1.0, 0.10, 0.16) * exp(-sd * 2.5) * 0.10;
 
   // Distant hills silhouette.
   float hill = horizon + 0.018 + 0.022 * noise(vec2(p.x * 2.2 + 3.0, 1.0)) + 0.012 * noise(vec2(p.x * 6.0, 2.0));
   float hillMask = smoothstep(hill + 0.002, hill - 0.002, uv.y) * step(horizon, uv.y);
-  sky = mix(sky, vec3(0.05, 0.045, 0.055), hillMask);
+  sky = mix(sky, vec3(0.02, 0.012, 0.014), hillMask);
 
   vec3 col = sky;
 
@@ -52,11 +53,11 @@ void main(){
     float xw = (p.x - vpx) * z - curve * z * z; // road-space x
     float travel = z + uTime * 2.4;
 
-    vec3 ground = mix(vec3(0.045, 0.05, 0.045), vec3(0.09, 0.08, 0.075), smoothstep(0.0, 0.25, 1.0 / z));
+    vec3 ground = mix(vec3(0.025, 0.02, 0.022), vec3(0.06, 0.04, 0.045), smoothstep(0.0, 0.25, 1.0 / z));
     ground *= 0.8 + 0.4 * noise(vec2(xw * 3.0, travel * 0.6));
     float roadW = 0.55;
     float road = smoothstep(roadW + 0.02, roadW, abs(xw));
-    vec3 asphalt = vec3(0.075, 0.078, 0.085) * (0.85 + 0.3 * noise(vec2(xw * 40.0, travel * 12.0)));
+    vec3 asphalt = vec3(0.055, 0.055, 0.06) * (0.85 + 0.3 * noise(vec2(xw * 40.0, travel * 12.0)));
     col = mix(ground, asphalt, road);
 
     // Edge lines (solid) and centre line (dashed, moving).
@@ -116,6 +117,15 @@ export function HeroRoad() {
         uRes: { value: new THREE.Vector2(1, 1) },
         uTime: { value: 8 },
         uPointer: { value: new THREE.Vector2(0, 0) },
+        uProg: { value: 0 },
+      };
+      // Scroll progress through the pinned hero stage drives the drive forward (both directions).
+      const stage = host.closest<HTMLElement>("[data-hero-stage]");
+      let lastProg = 0;
+      const readProgress = () => {
+        if (!stage) return 0;
+        const r = stage.getBoundingClientRect();
+        return Math.min(1, Math.max(0, -r.top / Math.max(1, r.height)));
       };
       const geometry = new THREE.PlaneGeometry(2, 2);
       const material = new THREE.ShaderMaterial({ vertexShader: vert, fragmentShader: frag, uniforms, depthTest: false });
@@ -138,7 +148,10 @@ export function HeroRoad() {
       const frame = (now: number) => {
         const dt = Math.min(0.05, (now - last) / 1000);
         last = now;
-        uniforms.uTime.value += dt;
+        const prog = readProgress();
+        uniforms.uTime.value += dt * 0.6 + (prog - lastProg) * 14;
+        lastProg = prog;
+        uniforms.uProg.value += (prog - uniforms.uProg.value) * 0.12;
         uniforms.uPointer.value.lerp(target, 0.04);
         renderer.render(scene, camera);
         raf = requestAnimationFrame(frame);
@@ -192,7 +205,7 @@ export function HeroRoad() {
       {/* Static poster (rendered from this same shader); visible until WebGL is live. */}
       <div
         className={`absolute inset-0 bg-cover bg-center transition-opacity duration-700 ${live ? "opacity-0" : "opacity-100"}`}
-        style={{ backgroundImage: "url(/images/hero-poster.jpg), linear-gradient(180deg,#0a0b0d 0%,#17161a 45%,#c27247 60%,#121314 61%,#0b0c0e 100%)" }}
+        style={{ backgroundImage: "url(/images/hero-poster.jpg), linear-gradient(180deg,#000 0%,#0b0304 45%,#8a0a17 60%,#060606 61%,#000 100%)" }}
       />
     </div>
   );

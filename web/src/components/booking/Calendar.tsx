@@ -111,7 +111,7 @@ export function Calendar({
                     onKeyDown={(e) => onKey(e, d)}
                     onClick={() => onSelect(d)}
                     className={`relative grid aspect-square w-full max-w-[52px] place-items-center rounded-full text-[15px] font-medium tabular-nums transition-all duration-200
-                      ${isSel ? "bg-accent text-white shadow-[0_6px_18px_-8px_rgba(14,94,71,.8)]" : isAvail ? "bg-accent-soft text-accent-ink hover:bg-[#d6e9e1]" : "text-faint/70"}
+                      ${isSel ? "bg-accent text-white shadow-[0_6px_18px_-8px_rgba(227,17,47,.8)]" : isAvail ? "bg-accent-soft text-accent-ink hover:bg-accent/30" : "text-faint/70"}
                       ${loading ? "animate-pulse" : ""}`}
                   >
                     {day}

@@ -48,7 +48,7 @@ export function AdminNav({ pending, name, logout }: { pending: number; name: str
   return (
     <>
       {/* Mobile top bar */}
-      <div className="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-line bg-[rgba(245,245,247,.85)] px-4 backdrop-blur-xl lg:hidden">
+      <div className="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-line bg-mist/85 px-4 backdrop-blur-xl lg:hidden">
         <Link href="/admin" className="flex items-center gap-2"><Plate /><span className="text-sm font-semibold">Dashboard</span></Link>
         <button type="button" className="grid size-10 place-items-center" aria-expanded={open} aria-controls="admin-menu" aria-label="Menu" onClick={() => setOpen(!open)}>
           <Icon name={open ? "close-circle-linear" : "hamburger-menu-linear"} size={24} />

@@ -37,7 +37,7 @@ function layout(title: string, intro: string, rows: [string, string][], footer: 
 <tr><td style="padding-top:24px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #e8e8ed">
 ${rows.map(([k, v]) => `<tr><td style="padding:12px 0;border-bottom:1px solid #e8e8ed;color:#6e6e73;font-size:14px;width:40%">${esc(k)}</td><td style="padding:12px 0;border-bottom:1px solid #e8e8ed;font-size:14px;font-weight:600">${esc(v)}</td></tr>`).join("")}
 </table></td></tr>
-${cta ? `<tr><td style="padding-top:28px"><a href="${esc(cta.url)}" style="display:inline-block;background:#0a63d1;color:#fff;text-decoration:none;padding:12px 22px;border-radius:999px;font-weight:600;font-size:15px">${esc(cta.label)}</a></td></tr>` : ""}
+${cta ? `<tr><td style="padding-top:28px"><a href="${esc(cta.url)}" style="display:inline-block;background:#d70f2b;color:#fff;text-decoration:none;padding:12px 22px;border-radius:999px;font-weight:600;font-size:15px">${esc(cta.label)}</a></td></tr>` : ""}
 <tr><td style="padding-top:28px;font-size:13px;line-height:1.6;color:#6e6e73">${footer.map(esc).join("<br>")}</td></tr>
 </table></td></tr></table></body></html>`;
   return { text, html };

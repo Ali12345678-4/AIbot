@@ -5,10 +5,10 @@ import { Logo } from "./Logo";
 import { Icon } from "../Icon";
 
 const NAV = [
+  { href: "/#timetable", label: "Timetable" },
   { href: "/#lessons", label: "Lessons" },
-  { href: "/#about", label: "About" },
-  { href: "/#why", label: "Why K444AXN" },
-  { href: "/#reviews", label: "Reviews" },
+  { href: "/#car", label: "The car" },
+  { href: "/#about", label: "Instructor" },
   { href: "/#contact", label: "Contact" },
 ];
 
@@ -35,7 +35,7 @@ export function SiteHeader({ overDark = false }: { overDark?: boolean }) {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,backdrop-filter] duration-500 ${
-        dark ? "on-dark bg-transparent" : "bg-[rgba(251,251,253,0.78)] shadow-[0_1px_0_rgba(0,0,0,0.06)] backdrop-blur-xl backdrop-saturate-150"
+        dark ? "on-dark bg-transparent" : "bg-black/70 shadow-[0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl backdrop-saturate-150"
       }`}
     >
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-[60] focus:rounded-full focus:bg-paper focus:px-4 focus:py-2 focus:text-sm">
@@ -47,7 +47,7 @@ export function SiteHeader({ overDark = false }: { overDark?: boolean }) {
           <ul className="flex items-center gap-7">
             {NAV.map((n) => (
               <li key={n.href}>
-                <Link href={n.href} className={`text-[13.5px] font-medium transition-colors ${dark ? "text-white/80 hover:text-white" : "text-ink-2 hover:text-ink"}`}>
+                <Link href={n.href} className={`mono text-[12px] uppercase tracking-[0.12em] transition-colors ${dark ? "text-white/70 hover:text-white" : "text-ink-2 hover:text-ink"}`}>
                   {n.label}
                 </Link>
               </li>
@@ -79,7 +79,7 @@ export function SiteHeader({ overDark = false }: { overDark?: boolean }) {
           <ul className="flex flex-col">
             {NAV.map((n, i) => (
               <li key={n.href} className="animate-rise" style={{ animationDelay: `${i * 40}ms` }}>
-                <Link href={n.href} onClick={() => setOpen(false)} className="block border-b border-line py-4 font-display text-[1.75rem] font-semibold tracking-[-0.02em] text-ink">
+                <Link href={n.href} onClick={() => setOpen(false)} className="wide-md block border-b border-line py-5 text-[1.75rem] text-ink">
                   {n.label}
                 </Link>
               </li>

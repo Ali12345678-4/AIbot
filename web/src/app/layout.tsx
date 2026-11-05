@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Inter_Tight } from "next/font/google";
+import { Archivo, Inter, JetBrains_Mono } from "next/font/google";
 import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
-const interTight = Inter_Tight({ subsets: ["latin"], variable: "--font-inter-tight", weight: ["600", "700"], display: "swap" });
+const archivo = Archivo({ subsets: ["latin"], variable: "--font-archivo", axes: ["wdth"], display: "swap" });
+const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jbm", weight: ["400", "600"], display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl()),
@@ -18,11 +19,11 @@ export const metadata: Metadata = {
   formatDetection: { telephone: false },
 };
 
-export const viewport: Viewport = { themeColor: "#fbfbfd", width: "device-width", initialScale: 1 };
+export const viewport: Viewport = { themeColor: "#000000", width: "device-width", initialScale: 1 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-GB" className={`${inter.variable} ${interTight.variable}`}>
+    <html lang="en-GB" className={`${inter.variable} ${archivo.variable} ${mono.variable}`}>
       <body className="min-h-dvh">{children}</body>
     </html>
   );

@@ -13,7 +13,7 @@ export function SiteFooter({ settings }: { settings: Settings }) {
   const year = new Date().getFullYear();
 
   return (
-    <footer id="contact" className="border-t border-line bg-mist text-[13px] text-muted">
+    <footer id="contact" className="border-t border-line bg-black text-[14px] text-muted">
       <div className="container-x grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
           <div className="flex items-center gap-2.5">
@@ -35,7 +35,7 @@ export function SiteFooter({ settings }: { settings: Settings }) {
         </div>
 
         <div>
-          <h2 className="mb-4 text-[12px] font-semibold uppercase tracking-[0.08em] text-ink">Contact</h2>
+          <h2 className="label mb-4 !text-ink">Contact</h2>
           <ul className="space-y-3">
             {settings.phone && (
               <li><a href={`tel:${settings.phone.replace(/[^\d+]/g, "")}`} className="inline-flex items-center gap-2 hover:text-ink"><Icon name="phone-linear" size={16} />{settings.phone}</a></li>
@@ -49,7 +49,7 @@ export function SiteFooter({ settings }: { settings: Settings }) {
         </div>
 
         <div>
-          <h2 className="mb-4 text-[12px] font-semibold uppercase tracking-[0.08em] text-ink">Explore</h2>
+          <h2 className="label mb-4 !text-ink">Explore</h2>
           <ul className="space-y-3">
             <li><Link href="/#lessons" className="hover:text-ink">Lessons &amp; prices</Link></li>
             <li><Link href="/#about" className="hover:text-ink">About the instructor</Link></li>
@@ -59,7 +59,7 @@ export function SiteFooter({ settings }: { settings: Settings }) {
         </div>
 
         <div>
-          <h2 className="mb-4 text-[12px] font-semibold uppercase tracking-[0.08em] text-ink">Legal</h2>
+          <h2 className="label mb-4 !text-ink">Legal</h2>
           <ul className="space-y-3">
             <li><Link href="/privacy" className="hover:text-ink">Privacy policy</Link></li>
             <li><Link href="/terms" className="hover:text-ink">Terms &amp; cancellations</Link></li>

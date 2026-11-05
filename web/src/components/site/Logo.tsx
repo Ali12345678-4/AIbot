@@ -5,7 +5,7 @@ export function Plate({ dark = false, className = "" }: { dark?: boolean; classN
   return (
     <span
       className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-[6px] px-[7px] py-[2px] font-display text-[13px] font-bold tracking-[0.06em] tabular-nums ${
-        dark ? "bg-white text-night" : "bg-ink text-white"
+        dark ? "bg-white text-black" : "bg-ink text-canvas"
       } ${className}`}
       aria-hidden="true"
     >

@@ -16,7 +16,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
     redirect("/admin/login");
   }
   return (
-    <div className="min-h-dvh bg-canvas lg:flex">
+    <div className="theme-light min-h-dvh bg-canvas lg:flex">
       <AdminNav pending={p?.n ?? 0} name={admin.name ?? admin.email} logout={signOut} />
       <main id="main" className="min-w-0 flex-1 px-4 pb-20 pt-6 sm:px-6 lg:px-10 lg:pt-10">{children}</main>
     </div>

@@ -11,7 +11,7 @@ export default async function LoginPage() {
   if (await currentAdmin()) redirect("/admin");
 
   return (
-    <main className="grid min-h-dvh place-items-center bg-mist px-5">
+    <main className="theme-light grid min-h-dvh place-items-center bg-mist px-5">
       <div className="w-full max-w-sm">
         <div className="mb-8 flex flex-col items-center text-center">
           <Plate className="!px-3 !py-1 !text-[18px]" />
